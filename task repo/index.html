@@ -147,7 +147,9 @@
             localStorage.setItem('loggedInUser', JSON.stringify(user));
 
             // Redirect to the main app page
-            window.location.href ="{{ url_for('page2') }}"// Update this to your actual app page
+        
+<a href="page2.html"></a>
+// Update this to your actual app page
                 } else {
                     // If login fails, display the error message with a fade-in effect
                     errorMessage.style.display = 'block';
