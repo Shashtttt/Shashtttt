@@ -90,7 +90,6 @@
             font-size: 14px;
         }
     </style>
-
 </head>
 <body>
 <div class="login-container">
@@ -100,6 +99,7 @@
         <input type="password" id="password" name="password" placeholder="Password" required><br>
         <button type="submit">Sign In</button>
     </form>
+    
     <h2>Register</h2>
     <form id="registration-form">
         <input type="text" id="new-username" name="new-username" placeholder="New Username" required><br>
@@ -107,10 +107,20 @@
         <input type="password" id="new-password" name="new-password" placeholder="New Password" required><br>
         <button type="submit">Register</button>
     </form>
+    
     <div id="error-message">Invalid username or password. Please try again.</div>
 </div>
+
 <script>
-    const users = [];
+    // Retrieve existing users from localStorage (if any)
+    function getUsers() {
+        return JSON.parse(localStorage.getItem('users')) || [];
+    }
+
+    // Save users to localStorage
+    function saveUsers(users) {
+        localStorage.setItem('users', JSON.stringify(users));
+    }
 
     // Registration form submit event listener
     document.getElementById('registration-form').addEventListener('submit', function(event) {
@@ -120,14 +130,20 @@
         const newName = document.getElementById('new-name').value;
         const newPassword = document.getElementById('new-password').value;
 
+        let users = getUsers();
+
         // Check if username is already taken
         if (users.some(user => user.username === newUsername)) {
             alert('Username already taken. Please choose a different username.');
             return;
         }
 
-        // Add new user to the database
+        // Add new user to the users array
         users.push({ username: newUsername, name: newName, password: newPassword });
+
+        // Save the updated users array to localStorage
+        saveUsers(users);
+
         alert('Registration successful! You can now sign in.');
     });
 
@@ -139,6 +155,8 @@
         const password = document.getElementById('password').value;
         const errorMessage = document.getElementById('error-message');
 
+        let users = getUsers();
+
         // Check if the entered credentials match a registered user
         const user = users.find(user => user.username === username && user.password === password);
 
@@ -146,26 +164,23 @@
             // Save the logged-in user to localStorage
             localStorage.setItem('loggedInUser', JSON.stringify(user));
 
-            // Redirect to the main app page
-        
-<a href="page2.html"></a>
-// Update this to your actual app page
-                } else {
-                    // If login fails, display the error message with a fade-in effect
-                    errorMessage.style.display = 'block';
-                    errorMessage.style.animation = 'fadeIn 1s ease-out';
-                }
-                });
+            // Redirect to the main app page (page2.html)
+            window.location.href = "page2.html"; // Update this to your actual app page
+        } else {
+            // If login fails, display the error message with a fade-in effect
+            errorMessage.style.display = 'block';
+            errorMessage.style.animation = 'fadeIn 1s ease-out';
+        }
+    });
 
-                // Adding a smooth fade-in animation for the error message
-                document.styleSheets[0].insertRule(`
-                @keyframes fadeIn {
-                    from {opacity: 0;}
-                    to {opacity: 1;}
-                }
-                `);
-
-
+    // Adding a smooth fade-in animation for the error message
+    document.styleSheets[0].insertRule(`
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+    `);
 </script>
+
 </body>
 </html>
