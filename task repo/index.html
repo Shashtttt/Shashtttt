@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Task Management App</title>
+    <style>
+        /* Global Body Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #0afdd0, #3055ea); /* Gorgeous gradient background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Login Container Styles */
+        .login-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out; /* Smooth transition effect */
+        }
+
+        .login-container:hover {
+            transform: scale(1.05); /* Slight zoom effect when hovered */
+        }
+
+        /* Heading Style */
+        .login-container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* Input Fields Style */
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            transition: border-color 0.3s ease; /* Smooth transition on focus */
+        }
+
+        /* Focus Effect on Inputs */
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #3055ea;
+            outline: none;
+        }
+
+        /* Button Style */
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #3055ea;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s ease-in-out;
+        }
+
+        /* Button Hover and Active Effects */
+        button:hover {
+            background-color: #3858fa;
+        }
+
+        button:active {
+            background-color: #4c7bfa;
+            transform: scale(0.98); /* Slight scale-down when button is clicked */
+        }
+
+        /* Error Message Style */
+        #error-message {
+            color: red;
+            margin-top: 10px;
+            display: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="login-container">
+    <h2>Sign In</h2>
+    <form id="login-form">
+        <input type="text" id="username" name="username" placeholder="Username" required><br>
+        <input type="password" id="password" name="password" placeholder="Password" required><br>
+        <button type="submit">Sign In</button>
+    </form>
+    <h2>Register</h2>
+    <form id="registration-form">
+        <input type="text" id="new-username" name="new-username" placeholder="New Username" required><br>
+        <input type="text" id="new-name" name="new-name" placeholder="Your Name" required><br>
+        <input type="password" id="new-password" name="new-password" placeholder="New Password" required><br>
+        <button type="submit">Register</button>
+    </form>
+    <div id="error-message">Invalid username or password. Please try again.</div>
+</div>
+<script>
+    const users = [];
+
+    // Registration form submit event listener
+    document.getElementById('registration-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const newUsername = document.getElementById('new-username').value;
+        const newName = document.getElementById('new-name').value;
+        const newPassword = document.getElementById('new-password').value;
+
+        // Check if username is already taken
+        if (users.some(user => user.username === newUsername)) {
+            alert('Username already taken. Please choose a different username.');
+            return;
+        }
+
+        // Add new user to the database
+        users.push({ username: newUsername, name: newName, password: newPassword });
+        alert('Registration successful! You can now sign in.');
+    });
+
+    // Login form submit event listener
+    document.getElementById('login-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const errorMessage = document.getElementById('error-message');
+
+        // Check if the entered credentials match a registered user
+        const user = users.find(user => user.username === username && user.password === password);
+
+        if (user) {
+            // Save the logged-in user to localStorage
+            localStorage.setItem('loggedInUser', JSON.stringify(user));
+
+            // Redirect to the main app page
+            window.location.href ="{{ url_for('page2') }}"// Update this to your actual app page
+                } else {
+                    // If login fails, display the error message with a fade-in effect
+                    errorMessage.style.display = 'block';
+                    errorMessage.style.animation = 'fadeIn 1s ease-out';
+                }
+                });
+
+                // Adding a smooth fade-in animation for the error message
+                document.styleSheets[0].insertRule(`
+                @keyframes fadeIn {
+                    from {opacity: 0;}
+                    to {opacity: 1;}
+                }
+                `);
+
+
+</script>
+</body>
+</html>
