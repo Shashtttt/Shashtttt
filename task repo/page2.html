@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div>
+    <title>Task Management App</title>
+    </div>
+    <style>
+       #headings {
+            padding : 10px;
+            color: red;
+            font-size: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #0afdd0, #3055ea);
+        margin: 0;
+        padding: 10px;
+        color: #100f0f;
+        display: flex;
+    }
+
+    .container {
+        max-width: 800px;
+        margin-left: 350px;
+        margin-right: 50px;
+        flex: 1;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: floralwhite;
+        align-self: center;
+        width: 100%;
+    }
+
+
+
+
+    h1, h2 {
+        text-align: center;
+        color: #100f0f;
+    }
+
+    form {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    input, textarea, select {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+
+    button {
+        padding: 10px;
+        background-color: #7baaef;
+        color: whitesmoke;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        gap:10px;
+    }
+
+    button:hover {
+        background-color: #314fc6;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        border-radius: 15px;  /* Rounded corners for the entire table */
+        overflow: hidden; /* Ensures the corners of the table are clipped */
+        border: 2px solid #ddd; /* Border around the table */
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-top: 1px solid #ddd;  /* Light top border for header and cells */
+        border-bottom: 1px solid #ddd; /* Light bottom border for header and cells */
+        color: #100f0f;
+    }
+
+    th {
+        background-color: #f1f1f1; /* Light background for the header */
+    }
+
+    .completed {
+        text-decoration: line-through;
+        color: #100f0f;
+    }
+
+    .progress-bar-container {
+        width: 100%;
+        background-color: #f3f3f3;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 5px;
+    }
+
+    .progress-bar {
+        height: 10px;
+        background-color: #1134c1;
+        transition: width 0.3s ease;
+    }
+
+    .progress-bar.completed {
+        background-color: #0c93dc;
+    }
+     .sidebar {
+            width: 280px;
+            position: fixed;
+            right: 77%;
+            top: 0;
+            bottom: 0;
+            background-color: #2f2f2f;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+         scroll-behavior: smooth;
+        }
+
+        .left-sidebar .profile {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .left-sidebar .profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .left-sidebar .profile h3 {
+            margin: 0;
+        }
+
+        .left-sidebar .task-progress {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .left-sidebar .progress-bar-container {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .left-sidebar .progress-bar {
+            height: 15px;
+            background-color: #0afdd0;
+            transition: width 0.3s ease;
+        }
+
+        .left-sidebar .progress-label {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+    #search-bar {
+        margin-bottom: 10px;
+    }
+
+    #task-count {
+        text-align: center;
+        margin: 20px 0;
+        background-color: #2f3231;
+        padding: 10px;
+        color:white;
+        border-radius: 30px;
+    }
+
+    .task-row {
+        background-color: #f47e7e;
+        padding: 10px;
+        color: black;
+    }
+
+    .task-row:nth-child(even) {
+        background: linear-gradient(to right, #0afdd0, antiquewhite);
+        padding: 10px;
+        color: black;
+    max-width: 100%;}
+
+    .task-row:nth-child(odd) {
+        background: linear-gradient(to right, #fd0ac4, antiquewhite);
+        padding: 10px;
+        color: black;
+        max-width: 100%;
+    }
+
+    .Edit-button {
+        margin-top: 20px;
+    }
+
+    .Delete-button {
+        margin-top: 20px;
+    }
+
+    /* New styling for right sidebar */
+    .right-sidebar {
+        width: 80px;
+        position: fixed;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-color: #2f2f2f;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+    }
+
+    .sidebar a {
+        color: #fff;
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-decoration: none;
+    }
+
+    .sidebar a:hover {
+        color: #7baaef;
+    }
+
+        /* New styles for history section */
+        .history-section {
+            margin-bottom: 20px;
+            width: 100%;
+            color: white;
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #3a3a3a;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .history-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #404040;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .history-content.open {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            padding: 10px;
+            border-bottom: 1px solid #505050;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Time picker popup styles */
+        .time-popup {
+            display: flex;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .time-popup.show {
+            display: block;
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .popup-overlay.show {
+            display:flex;
+        }
+
+        /* Add all previous styles here */
+        /* ... [keep all existing styles] ... */
+    </style>
+</head>
+<body>
+ <div class="container">
+        <div>
+        <h1>Task Management<span id="headings"></span></h1>
+            </div>
+
+        <div id="task-list">
+            <h2>Tasks</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Complete</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Due Date</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Progress</th>
+                        <th>User</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tasks"></tbody>
+            </table>
+        </div>
+
+        <form id="task-form">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            <label for="description">Description (optional):</label>
+            <textarea id="description" name="description"></textarea>
+            <label for="due-date">Due Date (optional):</label>
+            <input type="date" id="due-date" name="due_date">
+            <label for="priority">Priority (optional):</label>
+            <select id="priority" name="priority">
+                <option value="">Select</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <button type="submit">Add Task</button>
+        </form>
+
+        <div id="search-bar">
+            <input type="text" id="search-input" placeholder="Search tasks">
+        </div>
+
+        <div id="sort-options">
+            <label for="sort-by">Sort by:</label>
+            <select id="sort-by">
+                <option value="name">Name</option>
+                <option value="due_date">Due Date</option>
+                <option value="priority">Priority</option>
+            </select>
+        </div>
+    </div>
+   <!-- Right Sidebar for App Links -->
+    <div class="sidebar right-sidebar">
+ <a href="https://mail.google.com" target="_blank" title="Gmail">
+ <img src="../static/mail.png"   alt="mail" width="40" height="40"><br>
+    </a>
+    <a href="https://wa.me/" target="_blank" title="WhatsApp">
+        <img src="../static/whatsapp%20.png" alt="WhatsApp" width="40" height="40"><br>
+    </a>
+    <a href="https://www.microsoft.com/en-us/microsoft-365/word" target="_blank" title="Word">
+        <img src="../static/word.png" alt="Word" width="40" height="40"><br>
+    </a>
+    <a href="https://zoom.us/" target="_blank" title="Zoom">
+        <img src="../static/zoom.png" alt="Zoom" width="40" height="40">
+    </a>
+    <a href="https://meet.google.com" target="_blank" title="Google Meet">
+        <img src="../static/meet.png" alt="Google Meet" width="40" height="40">
+    </a>
+    <a href="https://mail.yahoo.com" target="_blank" title="Yahoo Mail">
+        <img src="../static/yahoo%20mail.png" alt="Yahoo Mail" width="40" height="40">
+    </a>
+    </div>
+
+    <!-- Update left sidebar to include history section -->
+    <div class="sidebar left-sidebar">
+        <div class="profile">
+            <img src="../static/user1.png" alt="User Profile">
+            <h3>User Name</h3>
+        </div>
+        <div class="task-progress">
+           <div class="progress-label">Total Tasks</div>
+            <div class="progress-bar-container">
+                <div id="total-tasks-bar" class="progress-bar" style="width: 0;"></div>
+            </div>
+            <div class="progress-label">Completed Tasks</div>
+            <div class="progress-bar-container">
+                <div id="completed-tasks-bar" class="progress-bar" style="width: 0;"></div>
+            </div>
+            <div class="progress-label">Pending Tasks</div>
+            <div class="progress-bar-container">
+                <div id="pending-tasks-bar" class="progress-bar" style="width: 0;"></div>
+                </div>
+                 <div id="task-count">
+            <p>Total Tasks: <span id="total-count">0</span></p>
+            <p>Completed Tasks: <span id="completed-count">0</span></p>
+                     <p>Pending Task:<span id="pending-count">0</span></p>
+                       <button onclick="logout()">logout</button>
+        </div>
+
+        <div class="history-section">
+            <div class="history-header" onclick="toggleHistory()">
+                <span>Show History</span>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="history-content" id="history-content">
+                <!-- History items will be added here dynamically -->
+            </div>
+        </div>
+    </div>
+              </div>
+        </div>
+
+
+        </div>
+
+    <!-- Add time picker popup -->
+    <div class="popup-overlay" id="popup-overlay">
+        <div class="time-popup" id="time-popup">
+            <h3>Set Task Time</h3>
+            <input type="time" id="task-time" required>
+            <button onclick="saveTaskTime()">Save</button>
+            <button onclick="closeTimePopup()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Keep existing right sidebar -->
+    <!-- ... [previous right sidebar content] ... -->
+
+   <script>
+    // New variables for task history and current task being edited
+    let taskHistory = getTaskHistory();
+    let currentEditingTaskId = null;
+
+    // Function to toggle history visibility
+    function toggleHistory() {
+        const historyContent = document.getElementById('history-content');
+        const toggleIcon = document.querySelector('.toggle-icon');
+        historyContent.classList.toggle('open');
+        toggleIcon.textContent = historyContent.classList.contains('open') ? '▲' : '▼';
+    }
+
+    // Get task history from localStorage
+    function getTaskHistory() {
+        const storedHistory = localStorage.getItem('taskHistory');
+        return storedHistory ? JSON.parse(storedHistory) : [];
+    }
+
+    // Add an action to the history and update the display
+    function addToHistory(action, taskTitle) {
+        const timestamp = new Date().toLocaleString();
+        taskHistory.unshift({ action, taskTitle, timestamp });
+        if (taskHistory.length > 50) taskHistory.pop();  // Keep only the last 50 entries
+        localStorage.setItem('taskHistory', JSON.stringify(taskHistory));
+        updateHistoryDisplay();
+    }
+
+    // Update the history display on the page
+    function updateHistoryDisplay() {
+        const historyContent = document.getElementById('history-content');
+        historyContent.innerHTML = taskHistory.map(item => `
+            <div class="history-item">
+                <div>${item.action}: ${item.taskTitle}</div>
+                <small>${item.timestamp}</small>
+            </div>
+        `).join('');
+    }
+
+    // Modify task functions to include history tracking
+    const originalAddTaskToList = addTaskToList;
+    addTaskToList = function(task) {
+        originalAddTaskToList(task);
+        addToHistory('Added task', task.title);
+    };
+
+    // Function to show the time popup for editing task time
+    function showTimePopup(taskId) {
+        currentEditingTaskId = taskId;
+        document.getElementById('popup-overlay').classList.add('show');
+        document.getElementById('time-popup').classList.add('show');
+    }
+
+    // Close the time popup
+    function closeTimePopup() {
+        document.getElementById('popup-overlay').classList.remove('show');
+        document.getElementById('time-popup').classList.remove('show');
+        currentEditingTaskId = null;
+    }
+
+    // Save the time for a task after editing
+    function saveTaskTime() {
+        const time = document.getElementById('task-time').value;
+        if (currentEditingTaskId && time) {
+            const task = tasks.find(t => t.id == currentEditingTaskId);
+            if (task) {
+                task.time = time;
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                updateTaskRow(currentEditingTaskId);
+                addToHistory('Updated time for', task.title);
+            }
+        }
+        closeTimePopup();
+    }
+
+    // Combine the two action cell functions
+    function createActionCell(task) {
+        const td = document.createElement('td');
+
+        // Time Button
+        const timeButton = document.createElement('button');
+        timeButton.textContent = '⏰';
+        timeButton.title = 'Set Time';
+        timeButton.addEventListener('click', () => showTimePopup(task.id));
+
+        // Edit Button
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.addEventListener('click', () => {
+            populateEditForm(task);
+            addToHistory('Edited', task.title);
+        });
+
+        // Delete Button
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => {
+            if (confirm('Are you sure you want to delete this task?')) {
+                addToHistory('Deleted', task.title);
+                deleteTask(task.id);
+            }
+        });
+
+        // Append buttons to the action cell
+        td.appendChild(timeButton) ;
+        td.appendChild(editButton);
+        td.appendChild(deleteButton);
+
+        return td;
+    }
+
+    // Initialize task history on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        updateHistoryDisplay();
+    });
+
+    // User icon for each task row
+    const userIcons = [
+        '👩‍💻', '👨‍💻', '🧑‍🎨', '👩‍🔬', '👨‍🚀', '🧑‍⚖️', '👩‍🎤', '👨‍🍳'
+    ];
+
+    // DOM elements for tasks, counters, and progress bars
+    const taskForm = document.getElementById('task-form');
+    const taskList = document.getElementById('tasks');
+    const totalCount = document.getElementById('total-count');
+    const completedCount = document.getElementById('completed-count');
+    const pendingCount = document.getElementById('pending-count');
+    const totalTasksBar = document.getElementById('total-tasks-bar');
+    const completedTasksBar = document.getElementById('completed-tasks-bar');
+    const pendingTasksBar = document.getElementById('pending-tasks-bar');
+
+    let tasks = getTasks();
+    let taskIdCounter = tasks.length ? Math.max(...tasks.map(task => task.id)) + 1 : 0;
+
+    // Display tasks on page load
+    tasks.forEach(addTaskToList);
+    updateProgressBars();
+
+    // Form submission to add a new task
+    taskForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const newTask = {
+            id: taskIdCounter++,
+            title: document.getElementById('title').value,
+            description: document.getElementById('description').value,
+            due_date: document.getElementById('due-date').value,
+            priority: document.getElementById('priority').value,
+            status: 'new'
+        };
+
+        tasks.push(newTask);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+
+        addTaskToList(newTask);
+        clearForm();
+        updateProgressBars();
+    });
+
+    // Clear form after submission
+    function clearForm() {
+        taskForm.reset();
+    }
+
+    // Add a task to the list (table)
+    function addTaskToList(task) {
+        const tr = document.createElement('tr');
+        tr.classList.add('task-row');
+        tr.dataset.taskId = task.id;
+
+        const cells = [
+            createCheckboxCell(task.status),
+            createTextCell(task.title),
+            createTextCell(task.description),
+            createTextCell(task.due_date),
+            createTextCell(task.priority),
+            createStatusCell(task.status),
+            createProgressBarCell(task.status),
+            createUserIconCell(),
+            createActionCell(task)
+        ];
+
+        cells.forEach(cell => tr.appendChild(cell));
+        taskList.appendChild(tr);
+    }
+
+    // Create a checkbox cell for task completion
+    function createCheckboxCell(status) {
+        const td = document.createElement('td');
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = status === 'completed';
+        checkbox.addEventListener('change', (event) => {
+            toggleTaskCompletion(event.target.closest('tr').dataset.taskId);
+        });
+        td.appendChild(checkbox);
+        return td;
+    }
+
+    // Create a text cell for task details (title, description, etc.)
+    function createTextCell(text) {
+        const td = document.createElement('td');
+        td.textContent = text || 'N/A';
+        return td;
+    }
+
+    // Create a status cell for task status (Completed/Pending)
+    function createStatusCell(status) {
+        const td = document.createElement('td');
+        td.textContent = status === 'completed' ? 'Completed' : 'Pending';
+        return td;
+    }
+
+    // Create a progress bar cell for task status
+    function createProgressBarCell(status) {
+        const td = document.createElement('td');
+        const progressBarContainer = document.createElement('div');
+        progressBarContainer.classList.add('progress-bar-container');
+        const progressBar = document.createElement('div');
+        progressBar.classList.add('progress-bar');
+        progressBar.style.width = status === 'completed' ? '100%' : '0%';
+        if (status === 'completed') progressBar.classList.add('completed');
+        progressBarContainer.appendChild(progressBar);
+        td.appendChild(progressBarContainer);
+        return td;
+    }
+
+    // Create a random user icon cell
+    function createUserIconCell() {
+        const td = document.createElement('td');
+        const randomUserIcon = userIcons[Math.floor(Math.random() * userIcons.length)];
+        td.textContent = randomUserIcon;
+        return td;
+    }
+
+    // Populate the form with task details for editing
+    function populateEditForm(task) {
+        document.getElementById('title').value = task.title;
+        document.getElementById('description').value = task.description;
+        document.getElementById('due-date').value = task.due_date;
+        document.getElementById('priority').value = task.priority;
+
+        const taskForm = document.getElementById('task-form');
+        taskForm.onsubmit = (event) => {
+            event.preventDefault();
+            saveTaskEdits(task.id);
+        };
+    }
+
+    // Save edited task details
+    function saveTaskEdits(taskId) {
+        const taskIndex = tasks.findIndex(task => task.id === taskId);
+                if (taskIndex !== -1) {
+            tasks[taskIndex].title = document.getElementById('title').value;
+            tasks[taskIndex].description = document.getElementById('description').value;
+            tasks[taskIndex].due_date = document.getElementById('due-date').value;
+            tasks[taskIndex].priority = document.getElementById('priority').value;
+
+            // Update the local storage with the modified task
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+
+            // Refresh the task row and progress bars
+            updateTaskRow(taskId);
+            updateProgressBars();
+            resetForm();
+        }
+    }
+
+    // Reset the task form and switch it back to add mode
+    function resetForm() {
+        const taskForm = document.getElementById('task-form');
+        taskForm.reset();
+        taskForm.onsubmit = (event) => {
+            event.preventDefault();
+            addNewTask();
+        };
+    }
+
+    // Toggle task completion (new -> completed or vice versa)
+    function toggleTaskCompletion(taskId) {
+        const task = tasks.find(t => t.id == taskId);
+        if (task) {
+            task.status = task.status === 'new' ? 'completed' : 'new';
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            updateTaskRow(taskId);
+            updateProgressBars();
+        }
+    }
+
+    // Update the task row with the latest details
+    function updateTaskRow(taskId) {
+        const taskRow = document.querySelector(`tr[data-task-id="${taskId}"]`);
+        const task = tasks.find(t => t.id == taskId);
+        taskRow.innerHTML = '';  // Clear existing content
+        addTaskToList(task);    // Re-add the updated task to the row
+    }
+
+    // Delete a task by ID
+    function deleteTask(taskId) {
+        tasks = tasks.filter(task => task.id != taskId);
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        const taskRow = document.querySelector(`tr[data-task-id="${taskId}"]`);
+        if (taskRow) taskRow.remove();
+        updateProgressBars();
+    }
+
+    // Update the progress bars (total, completed, pending)
+    function updateProgressBars() {
+        const totalTasks = tasks.length;
+        const completedTasks = tasks.filter(task => task.status === 'completed').length;
+        const pendingTasks = totalTasks - completedTasks;
+
+        // Calculate percentages
+        const totalPercentage = totalTasks > 0 ? 100 : 0; // Always 100% for total
+        const completedPercentage = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+        const pendingPercentage = totalTasks > 0 ? (pendingTasks / totalTasks) * 100 : 0;
+
+        // Update text content for the counters
+        totalCount.textContent = totalTasks;
+        completedCount.textContent = completedTasks;
+        pendingCount.textContent = pendingTasks;
+
+        // Update progress bars
+        totalTasksBar.style.width = `${totalPercentage}%`;
+        totalTasksBar.style.backgroundColor = '#7baaef';  // Total bar color
+
+        completedTasksBar.style.width = `${completedPercentage}%`;
+        completedTasksBar.style.backgroundColor = completedTasks > 0 ? '#0afdd0' : '#f3f3f3';  // Completed bar color
+
+        pendingTasksBar.style.width = `${pendingPercentage}%`;
+        pendingTasksBar.style.backgroundColor = pendingTasks > 0 ? '#fdc20a' : '#f3f3f3';  // Pending bar color
+    }
+
+    // Retrieve tasks from localStorage
+    function getTasks() {
+        const storedTasks = localStorage.getItem('tasks');
+        return storedTasks ? JSON.parse(storedTasks) : [];
+    }
+
+    // Logout function
+    function logout() {
+        localStorage.removeItem('loggedInUser');
+        window.location.href = "{{ url_for('index') }}"; // Redirect to the login page
+    }
+
+    // On page load, check if a user is logged in
+    document.addEventListener('DOMContentLoaded', () => {
+        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser')); // Parse logged-in user from localStorage
+
+        if (loggedInUser) {
+            // Update the username in the left sidebar
+            const userNameElement = document.querySelector('.left-sidebar .profile h3');
+            userNameElement.textContent = loggedInUser.name; // Assuming 'name' is a property of loggedInUser
+        } else {
+            // If no user is logged in, redirect to the login page
+            window.location.href = "{{ url_for('index') }}";
+        }
+    });
+</script>
+
+
+</body>
+</html>
