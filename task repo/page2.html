@@ -15,18 +15,18 @@
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
-background-color:navajowhite;
-    color: #121313;
-    max-width: 100%;
-    height: auto;
-}
+          background-color:navajowhite;
+       color: #121313;
+        max-width: 100%;
+         height: auto;
+     }
 
         .container {
             display: flex;
             gap: 0;
             max-width: 1200px;
                 margin-left: 20px;
-            height: auto;
+            height: 100px;
         }
 
         .main-content {
@@ -94,6 +94,7 @@ background-color:navajowhite;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(2, 1fr);
             gap: 5px;
+height:600px;
         }
 
 
@@ -178,7 +179,7 @@ height : 110vh;
 
         .profile img {
             width: 100px;
-            height:100px;
+            height: 100px;
             border-radius: 50%;
             margin-bottom: 10px;
         }
@@ -257,6 +258,19 @@ height : 110vh;
         .history-button:hover {
             background-color: #5E35B1;
         }
+
+      .progress-button {
+ background-color: black;
+            color: white;
+
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+
+
 
         .time-alert {
             background-color: #ef0a0a;
@@ -387,6 +401,110 @@ height : 110vh;
     z-index: 1000;
 }
 
+   .left-sidebar {
+            width: 60px; /* Slightly wider to accommodate progress bars */
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f1f4f8;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            z-index: 1000;
+        }
+
+
+
+
+       .vertical-progress-container {
+        display: flex;
+        justify-content: space-between; /* Horizontal placement */
+        align-items: centre; /* Align bars to bottom */
+        width: 100%;
+        height: 300px; /* Fixed container height */
+        margin-top: 10px;
+    }
+
+    .vertical-progress-bar {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+ width: 50px;
+  height: 300px;
+
+    }
+
+    .vertical-progress {
+        width: 50px;
+        height: 300px; /* Reduced height to fit container */
+        background-color: #e0e0e0;
+        position: relative;
+        overflow: hidden;
+
+
+    .vertical-progress-fill {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #4CAF50;
+        transition: height 0.5s ease;
+    }
+
+   .vertical-progress-label {
+    text-align: center; /* Corrected from 'vertical' (which is not a valid text-align value) */
+    font-size: 8px;
+    margin-top: 5px;
+    color: #333;
+
+}
+
+
+        .vertical-progress-label {
+            position: absolute;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 30px;
+            white-space: nowrap;
+            transform: rotate(180deg);
+            color: #fff;
+        }
+
+    /* Total Tasks Color */
+    #total-tasks-fill {
+        background-color: #3498db;
+    }
+
+    /* Completed Tasks Color */
+    #completed-tasks-fill {
+        background-color: #2ecc71;
+    }
+
+    /* Pending Tasks Color */
+    #pending-tasks-fill {
+        background-color: #e74c3c;
+    }
+
+        /* Adjust container to account for sidebar */
+        .container {
+            padding-left: 80px; /* Increased to accommodate wider sidebar */
+        }
+
+button .progress {
+      display: block;
+      text-align: center;
+    }
+
+    button.progress: hover {
+      color: #2980b9;
+      font-weight: bold;
+      transform: scale(1.1);
+      transition: all 0.3s ease;
+
+}
     </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -406,13 +524,51 @@ height : 110vh;
 
         <a onclick="location.reload()" class="nav-link" data-tooltip="Refresh">
             <i class="fas fa-sync-alt"></i>
-        </a>
-    </div>
+</a>
 
     <!-- Logout Button -->
     <a href="#" onclick="handleLogout()" class="nav-link logout-btn" data-tooltip="Logout">
         <i class="fas fa-sign-out-alt"></i>
     </a>
+
+<button id="myBtn" class="progress-button">
+
+</button>
+
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+<center>
+<h1>PROGRESS BAR</h1>
+</center>
+    <div class="vertical-progress-container">
+      <!-- Total Tasks -->
+      <div class="vertical-progress-bar">
+        <div class="vertical-progress" id="total-tasks-progress">
+            <div class="vertical-progress-fill" id="total-tasks-fill"></div>
+        </div>
+        <div class="vertical-progress-label">Total</div>
+      </div>
+      <!-- Completed Tasks -->
+      <div class="vertical-progress-bar">
+        <div class="vertical-progress" id="completed-tasks-progress">
+            <div class="vertical-progress-fill" id="completed-tasks-fill"></div>
+        </div>
+        <div class="vertical-progress-label">Completed</div>
+      </div>
+      <!-- Pending Tasks -->
+      <div class="vertical-progress-bar">
+        <div class="vertical-progress" id="pending-tasks-progress">
+            <div class="vertical-progress-fill" id="pending-tasks-fill"></div>
+        </div>
+        <div class="vertical-progress-label">Pending</div>
+      </div>
+    </div>
+  </div>
+</div>
 </nav>
  <div class="container">
         <div class="main-content">
@@ -422,7 +578,7 @@ height : 110vh;
 
         <div class="sidebar">
             <div class="profile">
-                <img src="static/user1.png" alt="User Profile">
+                <img src="static/p.png" alt="User Profile">
                 <h3>User Name</h3>
             </div>
             <button onclick="openModal()" style="width: 100%; margin-bottom: 20px;">Add New Task</button>
@@ -499,7 +655,7 @@ height : 110vh;
         </div>
     </div>
 
-    <!-- History Modal -->
+
     <div id="historyModal" class="modal">
         <div class="modal-content history-modal">
             <span class="close-modal" onclick="closeHistoryModal()">&times;</span>
@@ -673,18 +829,48 @@ function updateTaskCounts() {
     const completedCount = tasks.filter(t => t.status === 'completed').length;
     const pendingCount = totalCount - completedCount;
 
-    // Update count displays
+    // Update count displays (keep existing)
     document.getElementById('total-count').textContent = totalCount;
     document.getElementById('completed-count').textContent = completedCount;
     document.getElementById('pending-count').textContent = pendingCount;
 
-    // Update progress circles
+    // Update progress circles (keep existing)
     const completedPercentage = totalCount ? Math.round((completedCount / totalCount) * 100) : 0;
     const pendingPercentage = totalCount ? Math.round((pendingCount / totalCount) * 100) : 0;
 
     document.getElementById('total-tasks-text').textContent = `${totalCount}`;
     document.getElementById('completed-tasks-text').textContent = `${completedPercentage}%`;
-    document.getElementById('pending-tasks-text').textContent = `${pendingPercentage}%`;
+    document.getElementById('pending-tasks-text').textContent = `${pendingPercentage}%`;var modal = document.getElementById("myModal");
+var btn = document.getElementById("myBtn");
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+  updateProgress(); // Update progress bars when the modal is opened
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+// New Vertical Progress Bars
+    const totalTasksFill = document.getElementById('total-tasks-fill');
+    const completedTasksFill = document.getElementById('completed-tasks-fill');
+    const pendingTasksFill = document.getElementById('pending-tasks-fill');
+
+    // Adjust the height of progress bars based on percentage
+    totalTasksFill.style.height = `${Math.min(totalCount * 6, 100)}%`;
+    completedTasksFill.style.height = `${completedPercentage}%`;
+    pendingTasksFill.style.height = `${pendingPercentage}%`;
 }
 
 document.getElementById('task-form').addEventListener('submit', function(event) {
