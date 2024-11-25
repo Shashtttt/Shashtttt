@@ -785,7 +785,6 @@ function updateHistoryDisplay() {
         </div>
     `).join('');
 }
-
 // Task Time Management
 function checkDueTime(task) {
     if (!task.due_date || !task.due_time || task.status === 'completed') return '';
@@ -793,13 +792,15 @@ function checkDueTime(task) {
     const dueDateTime = new Date(`${task.due_date}T${task.due_time}`);
     const now = new Date();
     const timeDiff = dueDateTime - now;
-    const hoursLeft = timeDiff / (1000 * 60 * 60);
-    const minutesLeft = hoursLeft * 60;
+    const minutesLeft = Math.floor(timeDiff / (1000 * 60)); // Convert directly to minutes
 
     if (timeDiff < 0) {
-        return '<div class="time-alert">Task is overdue!</div>';
+        const overdueMinutes = Math.abs(minutesLeft);
+        return `<div class="time-alert">Task is overdue by ${overdueMinutes} minutes!</div>`;
     } else if (minutesLeft <= 5) {
-        return '<div class="time-alert">Due in less than 5 minutes!</div>';
+        return `<div class="time-alert">Due in ${minutesLeft} minutes!</div>`;
+    } else if (minutesLeft > 5) {
+        return `<div class="time-alert info">Due in ${minutesLeft} minutes</div>`;
     }
     return '';
 }
